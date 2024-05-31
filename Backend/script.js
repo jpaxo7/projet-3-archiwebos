@@ -59,13 +59,22 @@ async function generateCategories(categories){
         const filter = categories[i];
 
         //création des boutons
-        const buttonFilter = document.createElement("button");
-        buttonFilter.dataset.id = categories[i].id;
-        buttonFilter.textContent = filter.name;
+        const filterButton = document.createElement("button");
+        filterButton.classList.add("filter-button")
+        filterButton.dataset.id = categories[i].id;
+        filterButton.textContent = filter.name;
 
         // Attache de chaque bouton à la div des categoriesMenu
-        categoriesMenu.appendChild(buttonFilter);
+        categoriesMenu.appendChild(filterButton);
     }
+        const filterButton = document.querySelector(".filter-button");
+        filterButton.addEventListener("click", function() {
+        const filteredProjet = projet.filter(function (projet) {
+            return projet.categoryId === filterButton.dataset.id;
+        });
+        document.querySelector(".gallery").innerHTML='';
+        generateWorks(filteredProjet);
+    });
 }
 
 //nettoyage des projets dans la div gallery pour génération des projets depuis l'API
