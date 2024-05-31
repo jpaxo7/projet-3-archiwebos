@@ -1,7 +1,8 @@
+let works=[];
 //Récupération des projets depuis l'API
 async function fetchAndGenerateWorks() {
         const worksResponse = await fetch('http://localhost:5678/api/works');
-        const works = await worksResponse.json(); // Attendre la résolution de la promesse ici
+        works = await worksResponse.json(); // Attendre la résolution de la promesse ici
         console.log(works);
         generateWorks(works);
 }
