@@ -15,7 +15,7 @@ async function fetchAndGenerateCategories() {
 }
 
 //fonction permettant la génération des projets
-async function generateWorks(works){
+ function generateWorks(works){
 
     for (let i = 0; i < works.length; i++) {
 
@@ -40,21 +40,18 @@ async function generateWorks(works){
 }
 
 //Fonction permettant la génération des boutons du menu catégories avec les catégories présentes dans l'API
-async function generateCategories(categories){
+function generateCategories(categories){
 
-        //création de la balise menu de catégories
+        // //création de la balise menu de catégories
         const categoriesMenu = document.createElement("div");
         categoriesMenu.classList.add('categories-menu');
-        // Création du bouton "clear filter"
-        const clearFilterButton = document.createElement("button");
-        clearFilterButton.innerText = "Tous";
-        //attache du bouton à la div categoriesMenu
-        categoriesMenu.appendChild(clearFilterButton);
 
-        // Récupération des éléments du DOM pour mise en place dans le fichier HTML
+        // // Récupération des éléments du DOM pour mise en place dans le fichier HTML
         const sectionPortfolio = document.querySelector("#portfolio");
         const divGallery = document.querySelector(".gallery");
         sectionPortfolio.insertBefore(categoriesMenu, divGallery);
+
+        categories.unshift({id:4, name:"Tous"})
 
         //Boucle permettant la récupération dynamique des boutons et de leur nom
     for (let i = 0; i < categories.length; i++) {
@@ -70,16 +67,12 @@ async function generateCategories(categories){
         // Attache de chaque bouton à la div des categoriesMenu
         categoriesMenu.appendChild(filterButton);
     }
-        //Eventlistener pour filtrer les projets en fonction de leur catégories en cliquant sur le bouton correspondant
-        const filterButton = document.querySelector(".filter-button");
-        filterButton.addEventListener("click", function() {
-        const filteredProjet = projet.filter(function (projet) {
-            return projet.categoryId === filterButton.dataset.id;
-        });
-        document.querySelector(".gallery").innerHTML='';
-        generateWorks(filteredProjet);
-    });
-}
+
+    
+};
+
+//Eventlistener pour filtrer les projets en fonction de leur catégories en cliquant sur le bouton correspondant
+
 
 //nettoyage des projets dans la div gallery pour génération des projets depuis l'API
 document.querySelector(".gallery").innerHTML='';
@@ -87,5 +80,15 @@ document.querySelector(".gallery").innerHTML='';
 fetchAndGenerateWorks();
 fetchAndGenerateCategories();
 
+let filterButton = document.getElementsByClassName(".filter-button")[0];
+console.log(filterButton);
+filterButton.addEventListener("click", function() {
+const filteredProjet = works.filter(function (projet) {
+    return projet.categoryId === filterButton.dataset.id;
+    });
+    console.log(filteredProjet);
+document.querySelector(".gallery").innerHTML='';
+generateWorks(filteredProjet);
+});
 
 
