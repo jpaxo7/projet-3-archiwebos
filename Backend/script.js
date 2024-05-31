@@ -1,3 +1,4 @@
+//Récupération des projets depuis l'API
 async function fetchAndGenerateWorks() {
         const worksResponse = await fetch('http://localhost:5678/api/works');
         const works = await worksResponse.json(); // Attendre la résolution de la promesse ici
@@ -5,6 +6,7 @@ async function fetchAndGenerateWorks() {
         generateWorks(works);
 }
 
+//Récupération des différentes catégories depuis l'API
 async function fetchAndGenerateCategories() {
     const categoriesResponse = await fetch('http://localhost:5678/api/categories');
     const categories = await categoriesResponse.json(); // Attendre la résolution de la promesse ici
@@ -12,7 +14,7 @@ async function fetchAndGenerateCategories() {
     generateCategories(categories);
 }
 
-
+//fonction permettant la génération des projets
 async function generateWorks(works){
 
     for (let i = 0; i < works.length; i++) {
@@ -37,7 +39,7 @@ async function generateWorks(works){
 
 }
 
-
+//Fonction permettant la génération des boutons du menu catégories avec les catégories présentes dans l'API
 async function generateCategories(categories){
 
         //création de la balise menu de catégories
@@ -54,6 +56,7 @@ async function generateCategories(categories){
         const divGallery = document.querySelector(".gallery");
         sectionPortfolio.insertBefore(categoriesMenu, divGallery);
 
+        //Boucle permettant la récupération dynamique des boutons et de leur nom
     for (let i = 0; i < categories.length; i++) {
 
         const filter = categories[i];
@@ -67,6 +70,7 @@ async function generateCategories(categories){
         // Attache de chaque bouton à la div des categoriesMenu
         categoriesMenu.appendChild(filterButton);
     }
+        //Eventlistener pour filtrer les projets en fonction de leur catégories en cliquant sur le bouton correspondant
         const filterButton = document.querySelector(".filter-button");
         filterButton.addEventListener("click", function() {
         const filteredProjet = projet.filter(function (projet) {
