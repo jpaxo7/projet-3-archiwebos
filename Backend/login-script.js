@@ -37,7 +37,7 @@ function LoginAddEventListener(){
                 window.localStorage.setItem('token', token);
                 console.log("Connexion réussie et token stocké.");
                 // Redirection après connexion réussie
-                //window.location.href = '../FrontEnd/index.html'; 
+                window.location.href = '../FrontEnd/index.html'; 
             } else {
                 console.log("Erreur dans l’identifiant ou le mot de passe");
             }
@@ -53,5 +53,5 @@ if (token === null){
     }else{
         token = JSON.parse(token);
         // Redirection après connexion réussie
-        //window.location.href = '../FrontEnd/index.html'; 
+        window.location.href = '../FrontEnd/index.html'; 
 };
