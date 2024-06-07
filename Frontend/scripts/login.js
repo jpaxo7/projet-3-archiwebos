@@ -22,9 +22,16 @@ loginForm.addEventListener("submit", function(event){
         .then((response) => {
             if (response.status==200){
                 return response.json();
-            } else {
-                document.getElementById("error").style.display="block";
-                console.log("Erreur dans l’identifiant ou le mot de passe");
+                } else {
+                    const existingError = document.querySelector(".error-message");
+                    if (!existingError){
+                        const submitButton = document.querySelector(".submitButton");
+                        const error = document.createElement("p");
+                        error.classList.add("error-message");
+                        error.innerText = "Erreur dans l’identifiant ou le mot de passe";
+                        error.style.textDecoration = "none";
+                        loginForm.insertBefore(error, submitButton);
+                    }
             }
         })
         .then(function tokenStorage (data){
