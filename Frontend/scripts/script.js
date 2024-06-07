@@ -1,4 +1,24 @@
 let works=[];
+// récupération du token stocké dans le local storage
+let token = window.localStorage.getItem('token');
+
+const login = document.querySelector("nav .login");
+const logout = document.querySelector("nav .logout");
+
+//eventlistner au click balise logout pour effacer token
+function logoutAddEventListener(){
+    if(token){
+        login.style.display="none";
+        logout.style.display="block";
+        logout.addEventListener("click", function(){
+            window.localStorage.removeItem('token');
+            window.location.href = 'index.html';
+        });
+    }
+}
+
+logoutAddEventListener();
+
 //Récupération des projets depuis l'API
 async function fetchAndGenerateWorks() {
         const worksResponse = await fetch('http://localhost:5678/api/works');
@@ -68,8 +88,6 @@ function generateCategories(categories){
         // Attache de chaque bouton à la div des categoriesMenu
         categoriesMenu.appendChild(filterButton);
     }
-
-    
 };
 
 //Eventlistener pour filtrer les projets en fonction de leur catégories en cliquant sur le bouton correspondant

@@ -254,3 +254,7 @@ a {
 a:hover{
 	color: #B1663C;
 }
+
+.logout{
+	display: none;
+}
