@@ -1,15 +1,28 @@
 let works=[];
+let categories = [];
 // récupération du token stocké dans le local storage
 let token = window.localStorage.getItem('token');
 
 const login = document.querySelector("nav .login");
 const logout = document.querySelector("nav .logout");
 
+const fetchCategories = await fetch("http://localhost:5678/api/categories");
+categories= await fetchCategories.json();
+
+const fetchWorks = await fetch("http://localhost:5678/api/works");
+works= await fetchWorks.json();
+
+
+
 //eventlistner au click balise logout pour effacer token
 function logoutAddEventListener(){
+    const topModalCss = document.querySelector(".top-modal-css");
+    const cssModal = document.querySelector(".css-modal");
     if(token){
         login.style.display="none";
         logout.style.display="block";
+        topModalCss.style.display="flex";
+        cssModal.style.display="block";
         logout.addEventListener("click", function(){
             window.localStorage.removeItem('token');
             window.location.href = 'index.html';
@@ -20,24 +33,12 @@ function logoutAddEventListener(){
 logoutAddEventListener();
 
 //Récupération des projets depuis l'API
-async function fetchAndGenerateWorks() {
-        const worksResponse = await fetch('http://localhost:5678/api/works');
-        works = await worksResponse.json(); // Attendre la résolution de la promesse ici
-        console.log(works);
-        generateWorks(works);
-}
 
-//Récupération des différentes catégories depuis l'API
-async function fetchAndGenerateCategories() {
-    const categoriesResponse = await fetch('http://localhost:5678/api/categories');
-    const categories = await categoriesResponse.json(); // Attendre la résolution de la promesse ici
-    console.log(categories);
-    generateCategories(categories);
-}
+// //Récupération des différentes catégories depuis l'API
+
 
 //fonction permettant la génération des projets
- function generateWorks(works){
-
+ function generateWorks(works = works){
     for (let i = 0; i < works.length; i++) {
 
         const projet = works[i];
@@ -61,7 +62,7 @@ async function fetchAndGenerateCategories() {
 }
 
 //Fonction permettant la génération des boutons du menu catégories avec les catégories présentes dans l'API
-function generateCategories(categories){
+function generateCategories(){
 
         // //création de la balise menu de catégories
         const categoriesMenu = document.createElement("div");
@@ -81,7 +82,7 @@ function generateCategories(categories){
 
         //création des boutons
         const filterButton = document.createElement("button");
-        filterButton.classList.add("filter-button")
+        filterButton.classList.add("filter-button");
         filterButton.dataset.id = categories[i].id;
         filterButton.textContent = filter.name;
 
@@ -90,24 +91,27 @@ function generateCategories(categories){
     }
 };
 
+
 //Eventlistener pour filtrer les projets en fonction de leur catégories en cliquant sur le bouton correspondant
 
 
 //nettoyage des projets dans la div gallery pour génération des projets depuis l'API
 document.querySelector(".gallery").innerHTML='';
+generateWorks(works);
+generateCategories();
 
-fetchAndGenerateWorks();
-fetchAndGenerateCategories();
-
-let filterButton = document.getElementsByClassName(".filter-button")[0];
-console.log(filterButton);
-filterButton.addEventListener("click", function() {
-const filteredProjet = works.filter(function (projet) {
-    return projet.categoryId === filterButton.dataset.id;
-    });
+let filterButtons = document.querySelectorAll(".filter-button");
+for (let i = 0; i<4; i++){
+    filterButtons[i].addEventListener("click", function() {
+    const filteredProjet = works.filter(function (projet) {
+        console.log(projet.categoryId);
+        console.log(filterButtons[i].dataset.id);
+        return projet.categoryId === parseInt(filterButtons[i].dataset.id);
+        });
+    document.querySelector(".gallery").innerHTML='';
     console.log(filteredProjet);
-document.querySelector(".gallery").innerHTML='';
-generateWorks(filteredProjet);
+    generateWorks(filteredProjet);
 });
+};
 
 
