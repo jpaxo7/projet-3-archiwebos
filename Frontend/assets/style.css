@@ -295,7 +295,7 @@ a:hover{
   	margin-bottom: 25px;
 }
 .modal{
-	display: flex;
+	display: none;
 	position: fixed;
 	align-items: center;
 	justify-content: center;
@@ -306,8 +306,66 @@ a:hover{
 	background: rgba(0, 0, 0, 0.30);
 }
 .modal-wrapper{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	max-width: 630px;
 	max-height: 688;
 	border-radius: 10px;
 	background: white;
+}
+.modal-wrapper h3 {
+	font-size: 26px;
+	margin-bottom: 40px;
+	margin-top: 20px;
+}
+.js-close-modal p {
+	display: none;
+}
+
+.js-close-modal{
+	margin: 0;
+	padding: 0;
+	min-width: auto;
+	border: none;
+	color: #000000;
+	position: relative;
+  	left: 275px;
+  	top: 20px;
+	width: 35px;
+}
+.js-close-modal:hover{
+	all:unset;
+}
+
+.modal-gallery{
+	display: grid;
+	width: 70%;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  	grid-row-gap: 15px;
+  	grid-column-gap: 10px;
+	border-bottom: 1px solid #B3B3B3 ;
+	padding-bottom: 50px;
+}
+.modal-gallery img{
+	width: 100%;
+}
+.fa-xmark{
+	font-size: 20px;
+	width: 20px;
+}
+.delete-icon{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: black;
+	position: relative;
+	bottom: 105px;
+	left: 57px;
+	width: 20px;
+	height: 20px;
+	border-radius: 2px;
+}
+.fa-trash-can{
+	color: white;
 }

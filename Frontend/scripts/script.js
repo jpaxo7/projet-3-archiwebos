@@ -103,15 +103,20 @@ generateCategories();
 let filterButtons = document.querySelectorAll(".filter-button");
 for (let i = 0; i<4; i++){
     filterButtons[i].addEventListener("click", function() {
-    const filteredProjet = works.filter(function (projet) {
-        console.log(projet.categoryId);
-        console.log(filterButtons[i].dataset.id);
-        return projet.categoryId === parseInt(filterButtons[i].dataset.id);
-        });
-    document.querySelector(".gallery").innerHTML='';
-    console.log(filteredProjet);
-    generateWorks(filteredProjet);
-});
+        if (i === 0) {
+            document.querySelector(".gallery").innerHTML = '';
+            generateWorks(works); // Afficher tous les projets
+        } else {
+            const filteredProjet = works.filter(function (projet) {
+                console.log(projet.categoryId);
+                console.log(filterButtons[i].dataset.id);
+                return projet.categoryId === parseInt(filterButtons[i].dataset.id);
+                });
+            document.querySelector(".gallery").innerHTML='';
+            console.log(filteredProjet);
+            generateWorks(filteredProjet);
+        }
+    });
 };
 
 
