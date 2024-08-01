@@ -1,22 +1,21 @@
 let modal = null;
 let works=[];
+let token = window.localStorage.getItem('token');
+
 
 //fonction d'ouverture de la modale
 const openModal = function (event) {
     event.preventDefault();
     modal = document.querySelector(".modal");
     modal.style.display = "flex";
-    debugger;
     if ((event.target.matches(".js-close-modal") || !event.target.closest(".modal")) && !event.target.matches(".js-modal")){
         closeModal();
     };
-    // modal.querySelector('.js-close-modal').addEventListener('click', closeModal);
 };
 
 //fonction de fermeture de la modale
-const closeModal = function (event){
+const closeModal = function (){
     if (modal === null) return;
-    // event.preventDefault();
     modal.style.display = "none";
     modal.removeEventListener('click', closeModal);
     modal.querySelector('.js-close-modal').removeEventListener('click', closeModal);
@@ -80,3 +79,42 @@ const nextModal = function (event){
 
 const addWorks = document.querySelector(".add-works");
 addWorks.addEventListener("click", nextModal);
+
+const previousModal = function (event){
+    event.preventDefault();
+    const galleryModal = document.querySelector('.photo-gallery');
+    galleryModal.style.display = "flex";
+    const uploadModal = document.querySelector('.photo-upload');
+    uploadModal.style.display = "none";
+};
+
+const previousArrow = document.querySelector(".previous-modal");
+previousArrow.addEventListener('click', previousModal);
+
+const deleteButton = document.querySelectorAll(".delete-icon");
+deleteButton.forEach(deleteButton =>{
+deleteButton.addEventListener('click', () =>{
+    const parentFigure = deleteButton.closest('.modal-figure');
+    const workId = parentFigure.dataset.id;
+    fetch(`http://localhost:5678/api/works/${workId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.status==200) {
+            console.log("Le travail a été supprimé avec succès !");
+      // Mettre à jour l'affichage ou rafraîchir la liste des travaux
+            document.querySelector(".modal-gallery").innerHTML='';
+            generateWorks(works);
+    } else {
+      console.error("Une erreur s'est produite lors de la suppression du travail.");
+        }
+    })
+    .catch(error => {
+        console.error("Une erreur s'est produite lors de la suppression du travail :", error);
+      });
+})
+});
