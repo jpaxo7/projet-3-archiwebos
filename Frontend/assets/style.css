@@ -469,3 +469,9 @@ a:hover{
 	justify-content: space-between;
 	align-items: center;
 }
+.image-preview{
+	display: none;
+	position: absolute;
+    max-height: 186px;
+	z-index: 2;
+}

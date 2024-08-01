@@ -99,7 +99,8 @@ previousArrow.addEventListener('click', previousModal);
 
 const deleteButton = document.querySelectorAll(".delete-icon");
 deleteButton.forEach(deleteButton =>{
-deleteButton.addEventListener('click', () =>{
+deleteButton.addEventListener('click', (event) =>{
+    event.stopPropagation();
     const parentFigure = deleteButton.closest('.modal-figure');
     const workId = parentFigure.dataset.id;
     fetch(`http://localhost:5678/api/works/${workId}`, {
@@ -112,9 +113,7 @@ deleteButton.addEventListener('click', () =>{
     .then(response => {
         if (response.status==200) {
             console.log("Le travail a été supprimé avec succès !");
-      // Mettre à jour l'affichage ou rafraîchir la liste des travaux
-            document.querySelector(".modal-gallery").innerHTML='';
-            generateWorks(works);
+        parentFigure.remove();
     } else {
       console.error("Une erreur s'est produite lors de la suppression du travail.");
         }
@@ -124,3 +123,22 @@ deleteButton.addEventListener('click', () =>{
       });
 })
 });
+
+    //preview de l'image a uploader
+ const fileInput = document.querySelector('.file-input');
+ const imagePreview = document.querySelector('.image-preview');
+ fileInput.addEventListener('change', (event) => {
+     const file = event.target.files[0]; // Obtenir le premier fichier sélectionné
+     
+     if (file) {
+         const reader = new FileReader();
+         
+         // Lorsque le fichier est chargé, mettre à jour l'aperçu de l'image
+         reader.onload = () => {
+             imagePreview.src = reader.result;
+             imagePreview.style.display = 'flex';
+         };
+         
+         reader.readAsDataURL(file); // Lire le fichier comme une URL de données
+     }
+ });
