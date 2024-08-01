@@ -8,9 +8,15 @@ const openModal = function (event) {
     event.preventDefault();
     modal = document.querySelector(".modal");
     modal.style.display = "flex";
-    if ((event.target.matches(".js-close-modal") || !event.target.closest(".modal")) && !event.target.matches(".js-modal")){
-        closeModal();
-    };
+    modal.addEventListener('click', function(event) {
+        if (!event.target.closest(".modal-wrapper")) {
+            closeModal();
+        }
+    });
+    modal.querySelector('.js-close-modal').addEventListener('click', closeModal);
+    // if ((event.target.matches(".js-close-modal") || !event.target.closest(".modal")) && !event.target.matches(".js-modal")){
+    //     closeModal();
+    // };
 };
 
 //fonction de fermeture de la modale
