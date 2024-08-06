@@ -476,3 +476,7 @@ a:hover{
     max-height: 186px;
 	z-index: 2;
 }
+.output{
+	margin-bottom: 15px;
+	color: red;
+}

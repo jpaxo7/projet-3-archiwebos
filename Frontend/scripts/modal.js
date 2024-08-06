@@ -157,11 +157,14 @@ workUploadForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
     const formData = new FormData(workUploadForm);
-    const output = document.querySelector("#output");
+    const output = document.querySelector(".output");
 
     fetch("http://localhost:5678/api/works", {
         method: "POST",
         body: formData,
+        headers: {
+            'Authorization': `Bearer ${token}`,
+          }
     })
     .then(response => {
         if (response.status === 201) {
