@@ -124,15 +124,15 @@
 				<button class="js-close-modal"><i class="fa-solid fa-xmark"></i><p>Fermer la boite modale</p></button>
 			</div>
 			<h3>Ajout photo</h3>
-			<form>
+			<form class="photo-upload-form">
 				<div class="photo-input">
 					<img class="image-preview" src="" alt="Aperçu de l'image">
 					<i class="fa-regular fa-image"></i>
-					<button>
-						<input type="file" class="file-input">
+					<button class="button-photo-input">
+						<input type="file" name="file" class="file-input">
 						<p>+ Ajouter photo</p>
 					</button>
-					<p>jpg, png : 4mo max</p>
+					<p class="file-instruction">jpg, png : 4mo max</p>
 				</div>
 				<label for="title">Titre</label>
 				<input type="text" name="title" id="title" class="label-title">
@@ -146,6 +146,7 @@
 				<div class="border"></div>
 				<input type="submit" value="Valider">
 			</form>
+			<div id="output"></div>
 		</div>
 	</aside>
 </main>

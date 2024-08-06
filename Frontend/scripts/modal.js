@@ -99,8 +99,7 @@ previousArrow.addEventListener('click', previousModal);
 
 const deleteButton = document.querySelectorAll(".delete-icon");
 deleteButton.forEach(deleteButton =>{
-deleteButton.addEventListener('click', (event) =>{
-    event.stopPropagation();
+deleteButton.addEventListener('click', () =>{
     const parentFigure = deleteButton.closest('.modal-figure');
     const workId = parentFigure.dataset.id;
     fetch(`http://localhost:5678/api/works/${workId}`, {
@@ -111,9 +110,12 @@ deleteButton.addEventListener('click', (event) =>{
         }
     })
     .then(response => {
-        if (response.status==200) {
+        if (response.ok) {
             console.log("Le travail a été supprimé avec succès !");
-        parentFigure.remove();
+            parentFigure.remove();
+
+            const worksToRemove = document.querySelectorAll(`figure[data-id='${workId}']`);
+            worksToRemove.forEach(figure => figure.remove());
     } else {
       console.error("Une erreur s'est produite lors de la suppression du travail.");
         }
@@ -129,7 +131,9 @@ deleteButton.addEventListener('click', (event) =>{
  const imagePreview = document.querySelector('.image-preview');
  fileInput.addEventListener('change', (event) => {
      const file = event.target.files[0]; // Obtenir le premier fichier sélectionné
-     
+     const imageIcon = document.querySelector(".fa-image");
+     const inputButton = document.querySelector(".button-photo-input");
+     const fileInstruction = document.querySelector(".file-instruction");
      if (file) {
          const reader = new FileReader();
          
@@ -137,8 +141,34 @@ deleteButton.addEventListener('click', (event) =>{
          reader.onload = () => {
              imagePreview.src = reader.result;
              imagePreview.style.display = 'flex';
+             imageIcon.style.display = 'none';
+             inputButton.style.display = 'none';
+             fileInstruction.style.display = 'none';
          };
          
          reader.readAsDataURL(file); // Lire le fichier comme une URL de données
      }
  });
+
+
+const workUploadForm = document.querySelector(".photo-upload-form");
+
+workUploadForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(workUploadForm);
+    const output = document.querySelector("#output");
+
+    fetch("http://localhost:5678/api/works", {
+        method: "POST",
+        body: formData,
+    })
+    .then(response => {
+        if (response.status === 201) {
+            output.innerHTML = "Nouveau projet envoyé !";
+            return response.json();
+        } else {
+            output.innerHTML = `Erreur ${response.status} lors de la tentative d'envoi du projet.<br />`;
+        }
+    })
+});
