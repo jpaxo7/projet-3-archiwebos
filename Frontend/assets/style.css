@@ -433,10 +433,12 @@ a:hover{
 .photo-upload select{
 	appearance: none;
 }
-.photo-upload input[type="submit"]{
+.photo-upload .project-submit{
 	height: 36px;
 	border: none;
 	font-size: 14px;
+	background-color: #A7A7A7;
+
 }
 .border{
 	border-top: solid 1px #B3B3B3;

@@ -129,22 +129,22 @@
 					<img class="image-preview" src="" alt="Aperçu de l'image">
 					<i class="fa-regular fa-image"></i>
 					<button class="button-photo-input">
-						<input type="file" name="file" class="file-input">
+						<input type="file" name="file" class="file-input" required>
 						<p>+ Ajouter photo</p>
 					</button>
 					<p class="file-instruction">jpg, png : 4mo max</p>
 				</div>
 				<label for="title">Titre</label>
-				<input type="text" name="title" id="title" class="label-title">
+				<input type="text" name="title" id="title" class="label-title" required>
 				<label for="category">Catégorie</label>
-				<select name="category" id="category">
+				<select name="category" id="category" required>
 					<option value=""></option>
 					<option value="1">Objets</option>
 					<option value="2">Appartements</option>
 					<option value="3">Hotels & restaurants</option>
 				</select>
 				<div class="border"></div>
-				<input type="submit" value="Valider">
+				<input type="submit" value="Valider" class="project-submit" disabled>
 			</form>
 			<div class="output"></div>
 		</div>

@@ -175,3 +175,27 @@ workUploadForm.addEventListener("submit", (event) => {
         }
     })
 });
+
+
+const submitButton = document.querySelector(".project-submit");
+
+const checkFormValidity = () => {
+    // Vérifie si tous les champs requis sont valides
+    const isFormValid = workUploadForm.checkValidity();
+
+    if (isFormValid) {
+        submitButton.disabled = false;
+        submitButton.style.backgroundColor = "#1D6154";
+        submitButton.style.cursor = "pointer";
+    } else {
+        submitButton.disabled = true;
+        submitButton.style.backgroundColor = "#A7A7A7"; 
+        submitButton.style.cursor = "not-allowed";
+    }
+};
+
+// Écoute les événements d'entrée sur tous les champs du formulaire
+workUploadForm.addEventListener("input", checkFormValidity);
+
+// Appel initial pour vérifier l'état du formulaire au chargement de la page
+checkFormValidity();
