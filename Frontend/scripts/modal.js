@@ -1,7 +1,10 @@
 let modal = null;
 let works=[];
 let token = window.localStorage.getItem('token');
+import {generateWorks} from "./script.js";
 
+const workUploadForm = document.querySelector(".photo-upload-form");
+const output = document.querySelector(".output");
 
 //fonction d'ouverture de la modale
 const openModal = function (event) {
@@ -13,10 +16,8 @@ const openModal = function (event) {
             closeModal();
         }
     });
-    modal.querySelector('.js-close-modal').addEventListener('click', closeModal);
-    // if ((event.target.matches(".js-close-modal") || !event.target.closest(".modal")) && !event.target.matches(".js-modal")){
-    //     closeModal();
-    // };
+    modal.querySelectorAll('.js-close-modal')[0].addEventListener('click', closeModal);
+    modal.querySelectorAll('.js-close-modal')[1].addEventListener('click', closeModal);
 };
 
 //fonction de fermeture de la modale
@@ -26,6 +27,14 @@ const closeModal = function (){
     modal.removeEventListener('click', closeModal);
     modal.querySelector('.js-close-modal').removeEventListener('click', closeModal);
     modal = null;
+    if (output && output.textContent.includes("Nouveau projet envoyé !")){
+        workUploadForm.reset();
+        output.innerHTML = "";
+        imagePreview.style.display = 'none';
+        imageIcon.style.display = 'flex';
+        inputButton.style.display = 'block';
+        fileInstruction.style.display = 'flex';
+    }
 };
 
 //ouverture de la modale à l'écoute du click
@@ -44,7 +53,7 @@ window.addEventListener("keydown", function(event) {
 const fetchWorks = await fetch("http://localhost:5678/api/works");
 works= await fetchWorks.json();
 
-function generateWorks(works = works){
+function generateModalWorks(works = works){
     for (let i = 0; i < works.length; i++) {
 
         const projet = works[i];
@@ -73,7 +82,7 @@ function generateWorks(works = works){
 };
 
 document.querySelector(".modal-gallery").innerHTML='';
-generateWorks(works);
+generateModalWorks(works);
 
 const nextModal = function (event){
     event.preventDefault();
@@ -129,11 +138,11 @@ deleteButton.addEventListener('click', () =>{
     //preview de l'image a uploader
  const fileInput = document.querySelector('.file-input');
  const imagePreview = document.querySelector('.image-preview');
+ const imageIcon = document.querySelector(".fa-image");
+ const inputButton = document.querySelector(".button-photo-input");
+ const fileInstruction = document.querySelector(".file-instruction");
  fileInput.addEventListener('change', (event) => {
      const file = event.target.files[0]; // Obtenir le premier fichier sélectionné
-     const imageIcon = document.querySelector(".fa-image");
-     const inputButton = document.querySelector(".button-photo-input");
-     const fileInstruction = document.querySelector(".file-instruction");
      if (file) {
          const reader = new FileReader();
          
@@ -151,13 +160,10 @@ deleteButton.addEventListener('click', () =>{
  });
 
 
-const workUploadForm = document.querySelector(".photo-upload-form");
-
 workUploadForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
     const formData = new FormData(workUploadForm);
-    const output = document.querySelector(".output");
 
     fetch("http://localhost:5678/api/works", {
         method: "POST",
@@ -169,6 +175,10 @@ workUploadForm.addEventListener("submit", (event) => {
     .then(response => {
         if (response.status === 201) {
             output.innerHTML = "Nouveau projet envoyé !";
+            document.querySelector(".gallery").innerHTML='';
+            document.querySelector(".modal-gallery").innerHTML='';
+            generateModalWorks(works);
+            generateWorks(works);
             return response.json();
         } else {
             output.innerHTML = `Erreur ${response.status} lors de la tentative d'envoi du projet.<br />`;

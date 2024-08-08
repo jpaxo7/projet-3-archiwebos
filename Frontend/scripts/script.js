@@ -38,7 +38,7 @@ logoutAddEventListener();
 
 
 //fonction permettant la génération des projets
- function generateWorks(works = works){
+export function generateWorks(works = works){
     for (let i = 0; i < works.length; i++) {
 
         const projet = works[i];
