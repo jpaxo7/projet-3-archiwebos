@@ -163,6 +163,28 @@ deleteButton.addEventListener('click', () =>{
 workUploadForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
+    const file = fileInput.files[0];
+
+    // Vérifier si un fichier est sélectionné
+    if (!file) {
+        output.innerHTML = "Veuillez sélectionner un fichier.";
+        return;
+    }
+
+    // Vérifier le type de fichier
+    const allowedTypes = ["image/jpeg", "image/png"];
+    if (!allowedTypes.includes(file.type)) {
+        output.innerHTML = "Seuls les fichiers .jpg ou .png sont autorisés.";
+        return;
+    }
+
+    // Vérifier la taille du fichier (en octets)
+    const maxSize = 4 * 1024 * 1024; // 4 Mo
+    if (file.size > maxSize) {
+        output.innerHTML = "La taille du fichier ne doit pas dépasser 4 Mo.";
+        return;
+    }
+
     const formData = new FormData(workUploadForm);
 
     fetch("http://localhost:5678/api/works", {
@@ -175,15 +197,19 @@ workUploadForm.addEventListener("submit", (event) => {
     .then(response => {
         if (response.status === 201) {
             output.innerHTML = "Nouveau projet envoyé !";
-            document.querySelector(".gallery").innerHTML='';
-            document.querySelector(".modal-gallery").innerHTML='';
-            generateModalWorks(works);
-            generateWorks(works);
             return response.json();
         } else {
             output.innerHTML = `Erreur ${response.status} lors de la tentative d'envoi du projet.<br />`;
         }
     })
+    .then(data => {
+        // Ajouter l'image nouvellement téléchargée à la liste works
+        works.push(data);
+        document.querySelector(".gallery").innerHTML='';
+        document.querySelector(".modal-gallery").innerHTML='';
+        generateModalWorks(works);
+        generateWorks(works);
+    })        
 });
 
 
