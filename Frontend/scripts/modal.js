@@ -35,6 +35,22 @@ const closeModal = function (){
         inputButton.style.display = 'block';
         fileInstruction.style.display = 'flex';
     }
+    if (output && output.textContent.includes("Seuls les fichiers .jpg ou .png sont autorisés.")){
+        workUploadForm.reset();
+        output.innerHTML = "";
+        imagePreview.style.display = 'none';
+        imageIcon.style.display = 'flex';
+        inputButton.style.display = 'block';
+        fileInstruction.style.display = 'flex';
+    }
+    if (output && output.textContent.includes("La taille du fichier ne doit pas dépasser 4 Mo.")){
+        workUploadForm.reset();
+        output.innerHTML = "";
+        imagePreview.style.display = 'none';
+        imageIcon.style.display = 'flex';
+        inputButton.style.display = 'block';
+        fileInstruction.style.display = 'flex';
+    }
 };
 
 //ouverture de la modale à l'écoute du click
