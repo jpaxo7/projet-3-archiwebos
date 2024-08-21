@@ -215,7 +215,7 @@ workUploadForm.addEventListener("submit", (event) => {
             output.innerHTML = "Nouveau projet envoyé !";
             return response.json();
         } else {
-            output.innerHTML = `Erreur ${response.status} lors de la tentative d'envoi du projet.<br />`;
+            output.innerHTML = `Erreur ${response.status} lors de la tentative d'envoi du projet.<br/>`;
         }
     })
     .then(data => {
@@ -236,11 +236,9 @@ const checkFormValidity = () => {
     const isFormValid = workUploadForm.checkValidity();
 
     if (isFormValid) {
-        submitButton.disabled = false;
         submitButton.style.backgroundColor = "#1D6154";
         submitButton.style.cursor = "pointer";
     } else {
-        submitButton.disabled = true;
         submitButton.style.backgroundColor = "#A7A7A7"; 
         submitButton.style.cursor = "not-allowed";
     }
