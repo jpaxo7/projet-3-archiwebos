@@ -131,7 +131,6 @@ deleteButton.addEventListener('click', () =>{
     })
     .then(response => {
         if (response.ok) {
-            console.log("Le travail a été supprimé avec succès !");
             parentFigure.remove();
 
             const worksToRemove = document.querySelectorAll(`figure[data-id='${workId}']`);
@@ -208,6 +207,11 @@ workUploadForm.addEventListener("submit", (event) => {
     .then(response => {
         if (response.status === 201) {
             output.innerHTML = "Nouveau projet envoyé !";
+            workUploadForm.reset();
+            imagePreview.style.display = 'none';
+            imageIcon.style.display = 'flex';
+            inputButton.style.display = 'block';
+            fileInstruction.style.display = 'flex';
             return response.json();
         } else {
             output.innerHTML = `Erreur ${response.status} lors de la tentative d'envoi du projet.<br/>`;
