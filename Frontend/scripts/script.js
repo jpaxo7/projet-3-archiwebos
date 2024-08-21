@@ -1,4 +1,4 @@
-let works=[];
+export let works=[];
 let categories = [];
 // récupération du token stocké dans le local storage
 let token = window.localStorage.getItem('token');
@@ -46,7 +46,7 @@ export function generateWorks(works = works){
         const divGallery = document.querySelector(".gallery");
          // Création d’une balise dédiée à un projet
          const worksElement = document.createElement("figure");
-         worksElement.dataset.id = works[i].id;
+         worksElement.dataset.id = projet.id;
          // creation des balises
          const imageElement = document.createElement("img");
          imageElement.src = projet.imageUrl;  
@@ -92,25 +92,24 @@ function generateCategories(){
 };
 
 
-//Eventlistener pour filtrer les projets en fonction de leur catégories en cliquant sur le bouton correspondant
-
-
 //nettoyage des projets dans la div gallery pour génération des projets depuis l'API
 document.querySelector(".gallery").innerHTML='';
 generateWorks(works);
 generateCategories();
 
+//Eventlistener pour filtrer les projets en fonction de leur catégories en cliquant sur le bouton correspondant
+
 let filterButtons = document.querySelectorAll(".filter-button");
 for (let i = 0; i<4; i++){
     filterButtons[i].addEventListener("click", function() {
+        const filterId = parseInt(filterButtons[i].dataset.id);
+        document.querySelector(".gallery").innerHTML = '';
         if (i === 0) {
-            document.querySelector(".gallery").innerHTML = '';
             generateWorks(works); // Afficher tous les projets
         } else {
             const filteredProjet = works.filter(function (projet) {
-                return projet.categoryId === parseInt(filterButtons[i].dataset.id);
+                return projet.categoryId === filterId;
                 });
-            document.querySelector(".gallery").innerHTML='';
             generateWorks(filteredProjet);
         }
     });

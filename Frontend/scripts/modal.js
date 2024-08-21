@@ -1,7 +1,6 @@
 let modal = null;
-let works=[];
 let token = window.localStorage.getItem('token');
-import {generateWorks} from "./script.js";
+import {generateWorks, works} from "./script.js";
 
 const workUploadForm = document.querySelector(".photo-upload-form");
 const output = document.querySelector(".output");
@@ -64,10 +63,6 @@ window.addEventListener("keydown", function(event) {
         closeModal(event);
     };
 });
-
-
-const fetchWorks = await fetch("http://localhost:5678/api/works");
-works= await fetchWorks.json();
 
 function generateModalWorks(works = works){
     for (let i = 0; i < works.length; i++) {
@@ -220,6 +215,9 @@ workUploadForm.addEventListener("submit", (event) => {
     })
     .then(data => {
         // Ajouter l'image nouvellement téléchargée à la liste works
+        if (data.categoryId) {
+            data.categoryId = parseInt(data.categoryId);
+        }
         works.push(data);
         document.querySelector(".gallery").innerHTML='';
         document.querySelector(".modal-gallery").innerHTML='';
